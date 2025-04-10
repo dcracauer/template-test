@@ -7,6 +7,7 @@ plugins {
     id("maven-publish")
 }
 
+version = scmVersion.version
 publishing {
     publications {
         create<MavenPublication>("maven") {
