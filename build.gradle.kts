@@ -18,6 +18,8 @@ scmVersion {
     tag { prefix = "v" }
     // Use the last tag as the version
     useHighestVersion.set(true)
+    versionCreator("versionWithBranch")
+
     // Create a snapshot version if the code has uncommitted changes
     snapshotCreator { version, position ->
         "$version-${position.branch}-SNAPSHOT"
