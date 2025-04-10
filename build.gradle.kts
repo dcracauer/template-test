@@ -22,6 +22,13 @@ scmVersion {
 	snapshotCreator { version, _ ->
 		"$version-SNAPSHOT"
 	}
+
+	branchVersionIncrementer.putAll(mapOf<String, String>(
+		"feature/.*" to "incrementMinor",
+		"hotfix/.*" to "incrementPatch",
+		"release/.*" to "incrementPatch",
+	))
+
 	// Configure how the next version is calculated when running the release task
 	versionIncrementer("incrementPatch")
 	// Ignore uncommitted changes when checking if the repository is clean
