@@ -12,7 +12,7 @@ project.afterEvaluate {
 
 group = "ai.collaboration"
 
-//comment to change for release testing
+//comment to change for release testing xxx
 // Configure axion-release plugin
 scmVersion {
 	tag { prefix = "v" }
