@@ -24,7 +24,6 @@ scmVersion {
     }
 
     releaseBranchNames = listOf("main")
-    releaseOnlyOnReleaseBranches = true
 
 
     // Configure how the next version is calculated when running the release task
