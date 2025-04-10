@@ -3,10 +3,30 @@ plugins {
 	alias(libs.plugins.kotlin.spring)
 	alias(libs.plugins.spring.boot)
 	alias(libs.plugins.spring.dependency.management)
+	alias(libs.plugins.axion)
+}
+
+project.afterEvaluate {
+	println("Version: ${project.version}")
 }
 
 group = "ai.collaboration"
-version = "0.0.1-SNAPSHOT"
+
+// Configure axion-release plugin
+scmVersion {
+	tag { prefix = "v" }
+	// Use the last tag as the version
+	useHighestVersion.set(true)
+	// Create a snapshot version if the code has uncommitted changes
+	snapshotCreator { version, _ ->
+		"$version-SNAPSHOT"
+	}
+	// Configure how the next version is calculated when running the release task
+	versionIncrementer("incrementPatch")
+	// Ignore uncommitted changes when checking if the repository is clean
+	ignoreUncommittedChanges.set(false)
+}
+
 
 java {
 	toolchain {
