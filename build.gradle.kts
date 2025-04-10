@@ -1,13 +1,13 @@
 plugins {
-	alias(libs.plugins.kotlin.jvm)
-	alias(libs.plugins.kotlin.spring)
-	alias(libs.plugins.spring.boot)
-	alias(libs.plugins.spring.dependency.management)
-	alias(libs.plugins.axion)
+    alias(libs.plugins.kotlin.jvm)
+    alias(libs.plugins.kotlin.spring)
+    alias(libs.plugins.spring.boot)
+    alias(libs.plugins.spring.dependency.management)
+    alias(libs.plugins.axion)
 }
 
 project.afterEvaluate {
-	println("Version: ${project.version}")
+    println("Version: ${project.version}")
 }
 
 group = "ai.collaboration"
@@ -15,54 +15,52 @@ group = "ai.collaboration"
 //comment to change for release testing xxx
 // Configure axion-release plugin
 scmVersion {
-	tag { prefix = "v" }
-	// Use the last tag as the version
-	useHighestVersion.set(true)
-	// Create a snapshot version if the code has uncommitted changes
-	snapshotCreator { version, _ ->
-		"$version-SNAPSHOT"
-	}
+    tag { prefix = "v" }
+    // Use the last tag as the version
+    useHighestVersion.set(true)
+    // Create a snapshot version if the code has uncommitted changes
+    snapshotCreator { version, position ->
+        "$version-${position.branch}-SNAPSHOT"
+    }
 
-	branchVersionIncrementer.putAll(mapOf<String, String>(
-		"feature/.*" to "incrementMinor",
-		"hotfix/.*" to "incrementPatch",
-		"release/.*" to "incrementPatch",
-	))
+    releaseBranchNames = listOf("main")
+    releaseOnlyOnReleaseBranches = true
 
-	// Configure how the next version is calculated when running the release task
-	versionIncrementer("incrementPatch")
-	// Ignore uncommitted changes when checking if the repository is clean
-	ignoreUncommittedChanges.set(false)
+
+    // Configure how the next version is calculated when running the release task
+    versionIncrementer("incrementPatch")
+    // Ignore uncommitted changes when checking if the repository is clean
+    ignoreUncommittedChanges.set(false)
 }
 
 
 java {
-	toolchain {
-		languageVersion = JavaLanguageVersion.of(21)
-	}
+    toolchain {
+        languageVersion = JavaLanguageVersion.of(21)
+    }
 }
 
 repositories {
-	mavenCentral()
+    mavenCentral()
 }
 
 dependencies {
-	implementation(libs.spring.boot.actuator)
-	implementation(libs.spring.boot.web)
-	implementation(libs.jackson.kotlin)
-	implementation(libs.kotlin.reflect)
-	runtimeOnly(libs.micrometer.otlp)
-	testImplementation(libs.spring.boot.test)
-	testImplementation(libs.kotlin.test.junit5)
-	testRuntimeOnly(libs.junit.platform.launcher)
+    implementation(libs.spring.boot.actuator)
+    implementation(libs.spring.boot.web)
+    implementation(libs.jackson.kotlin)
+    implementation(libs.kotlin.reflect)
+    runtimeOnly(libs.micrometer.otlp)
+    testImplementation(libs.spring.boot.test)
+    testImplementation(libs.kotlin.test.junit5)
+    testRuntimeOnly(libs.junit.platform.launcher)
 }
 
 kotlin {
-	compilerOptions {
-		freeCompilerArgs.addAll("-Xjsr305=strict")
-	}
+    compilerOptions {
+        freeCompilerArgs.addAll("-Xjsr305=strict")
+    }
 }
 
 tasks.withType<Test> {
-	useJUnitPlatform()
+    useJUnitPlatform()
 }
