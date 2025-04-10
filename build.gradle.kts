@@ -4,6 +4,15 @@ plugins {
     alias(libs.plugins.spring.boot)
     alias(libs.plugins.spring.dependency.management)
     alias(libs.plugins.axion)
+    id("maven-publish")
+}
+
+publishing {
+    publications {
+        create<MavenPublication>("maven") {
+            from(components["java"])
+        }
+    }
 }
 
 project.afterEvaluate {
@@ -24,10 +33,7 @@ scmVersion {
     snapshotCreator { version, position ->
         "$version-${position.branch}-SNAPSHOT"
     }
-
     releaseBranchNames = listOf("main")
-
-
     // Configure how the next version is calculated when running the release task
     versionIncrementer("incrementPatch")
     // Ignore uncommitted changes when checking if the repository is clean
