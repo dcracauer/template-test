@@ -1,0 +1,20 @@
+spring:
+  application:
+    name: template
+
+management:
+  endpoints:
+    web:
+      exposure:
+        include: health,info,metrics,info,threaddump
+  endpoint:
+    health:
+      show-details: always
+    metrics:
+      access: read_only
+  metrics:
+    enable:
+      all: true
+  otlp:
+    logging:
+      transport: grpc
